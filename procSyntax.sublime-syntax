@@ -1,0 +1,82 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html for info
+file_extensions:
+  - proc
+scope: source.proc
+contexts:
+  main:
+    # Comments begin with a '|' and finish at the end of the line
+    - match: '\|'
+      scope: punctuation.definition.comment.proc
+      push: line_comment
+
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: '\b(set)\b'
+      scope: keyword.control.proc
+
+    # Denotes end of list
+    - match: '#'
+      scope: keyword.control.proc
+
+    # Numbers
+    - match: '\b(-)?[0-9.e]+\b'
+      scope: constant.numeric.proc
+
+    # Commands
+    - match: '^\s*\*[a-zA-Z_]+'
+      scope: support.constant.proc
+      push: command
+
+    # @-statements
+    - match: '@[a-zA-Z_]+'
+      scope: keyword.operator.proc
+
+    # If the above havenot caught something, mark it invalid
+    - match: '^\s*.+$'
+      scope: invalid.illegal.line
+
+
+
+  invalid_line:
+    - meta_scope: invalid.illegal.line
+    - match: '$'
+      pop: true
+
+
+  command:
+    - match: '^\s*$'
+      # scope: invalid.illegal.line
+      pop: true
+
+    # Numbers
+    - match: '\b(-)?[0-9.e]+\b'
+      scope: constant.numeric.proc
+
+    - match: '\b[a-zA-Z_0-9]+\b'
+      scope: variable.parameter.proc
+
+    - match: '\|'
+      scope: punctuation.definition.comment.proc
+      push: line_comment
+
+    # Commands
+    - match: '\*[a-zA-Z_]+'
+      scope: support.constant.proc
+      push: command
+
+    # Operators
+    - match: ':|-|\+|\*|/|\.|\^'
+      scope: keyword.operator.proc
+
+
+  line_comment:
+    - meta_scope: comment.line.proc
+    - match: $
+      pop: true
+
+
