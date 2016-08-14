@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 # See http://www.sublimetext.com/docs/3/syntax.html for info
+name: Marc Mentat Procedure
 file_extensions:
   - proc
 scope: source.proc
@@ -38,19 +39,19 @@ contexts:
 
     # If the above havenot caught something, mark it invalid
     - match: '^\s*.+$'
-      scope: invalid.illegal.line
+      scope: invalid.illegal.line.proc
 
 
 
   invalid_line:
-    - meta_scope: invalid.illegal.line
+    - meta_scope: invalid.illegal.line.proc
     - match: '$'
       pop: true
 
 
   command:
     - match: '^\s*$'
-      # scope: invalid.illegal.line
+      # scope: invalid.illegal.line.proc
       pop: true
 
     # Numbers
